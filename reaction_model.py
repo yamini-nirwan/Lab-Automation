@@ -1,11 +1,10 @@
 import numpy as np
 
-def run_reaction(current, concenmtration, temp, time):
+def run_reaction(current, concentration, temp, time):
     """ 
     Simulated electrosynthesis yield model
     Returns yield in percent (0-100).
     """
-
     # Add experimental noise
     noise = np.random.normal(0, 2) 
     """
@@ -25,7 +24,7 @@ def run_reaction(current, concenmtration, temp, time):
     # Non-linear peak behavior 
     yield_percent = (
         -0.05*(current - 50)**2
-        -0.01*(concenmtration - 0.05)**2
+        -0.01*(concentration - 0.05)**2
         -0.03*(temp - 40)**2
         -0.02*(time - 60)**2
         + 95
