@@ -1,19 +1,22 @@
-from optimizer import generate_random_params
+from optimizer import generate_grid_params
 from experiment_runner import perform_experiment
+from data_logger import log_experiment
 """
 This connects your system:
-generate_random_params() → chooses experiment conditions
+generate_grid_params() → chooses experiment conditions
 perform_experiment() → runs experiment + gets yield
-So now main.py controls the whole lab.
+log_experiment() → logs experiment results
+main.py controls the whole lab.
 """
 
-NUM_EXPERIMENTS = 50
+
 best_yield = 0
 best_params = None
 
-for i in range(NUM_EXPERIMENTS):
-    params = generate_random_params()  
+for i, params in enumerate(generate_grid_params()):  #enumerate() gives us both the index (i) and the parameter set (params) for each experiment
+    
     result = perform_experiment(params)
+    log_experiment(result)
 
     print(f"\nExperiment {i+1}") # {i+1} → shows experiment number (starting from 1) because range(50) starts from 0 so experiment number becomes 1-50 instead of 0 to 49
     print(f"Parameters: {params}")
