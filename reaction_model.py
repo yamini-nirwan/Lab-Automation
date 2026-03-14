@@ -23,8 +23,8 @@ def run_reaction(current, concentration, temp, time):
     
     # Non-linear peak behavior 
     yield_percent = (
-        -0.05*(current - 50)**2
-        -0.01*(concentration - 0.05)**2
+        -0.02*(current - 50)**2
+        -0.04*(concentration - 0.05)**2
         -0.03*(temp - 40)**2
         -0.02*(time - 60)**2
         + 95
