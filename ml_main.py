@@ -21,11 +21,11 @@ for i in range(NUM_EXPERIMENTS):
 
     result = perform_experiment(params)
 
-    log_experiment(result)
+    log_experiment(result, filename="results_ml.csv")
 
-    print(f"\nExperiment {i+1}")
-    print (params)
-    print(f"Yield: {result['yield']:.2f}%")
+    #print(f"\nExperiment {i+1}")
+    #print (params)
+    #print(f"Yield: {result['yield']:.2f}%")
 
     """
     Machine learning needs initial data.

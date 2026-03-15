@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-df = pd.read_csv("results.csv")  # Load the logged experiment results from the CSV file into a DataFrame.
+df = pd.read_csv("results_grid.csv")  # Load the logged experiment results from the CSV file into a DataFrame.
 
 plt.plot(df["yield"])
 plt.xlabel("Experiment Number")  

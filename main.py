@@ -16,7 +16,7 @@ best_params = None
 for i, params in enumerate(generate_grid_params()):  #enumerate() gives us both the index (i) and the parameter set (params) for each experiment
     
     result = perform_experiment(params)
-    log_experiment(result)
+    log_experiment(result, filename="results_grid.csv")
 
     print(f"\nExperiment {i+1}") # {i+1} → shows experiment number (starting from 1) because range(50) starts from 0 so experiment number becomes 1-50 instead of 0 to 49
     print(f"Parameters: {params}")

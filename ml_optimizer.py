@@ -7,7 +7,7 @@ def train_model(filename = "results.csv"):
     Train ML model to predict reaction yield.
     """
     # Load the experimental data
-    df = pd.read_csv(filename)
+    df = pd.read_csv("results_ml.csv")
     
     # Define features and target
     X = df[["current", "concentration", "temp", "time"]] #define input variables
@@ -40,12 +40,8 @@ def suggest_next_experiments(model, n_candidates=5000):
         } #generate random reaction parameters within specified ranges
 
         #Convert parameters into ML input format
-        X = [[
-            params["current"],
-            params["concentration"],
-            params["temp"],
-            params["time"]
-        ]] #Machine learning models expect input as a 2D array.
+        #Machine learning models expect input as a 2D array.
+        X = pd.DataFrame([params]) #feature names match the column names used during training (current, concentration, temp, time) and [params] creates a DataFrame with one row containing the
 
         #Predict yield
         predicted_yield = model.predict(X)[0]  #[0] extracts the first element from the predicted yield array returned by the model
@@ -53,5 +49,5 @@ def suggest_next_experiments(model, n_candidates=5000):
         candidates.append((predicted_yield, params))
         
     # Sort candidates by predicted yield
-    candidates.sort(reverse=True) #best experiment is at the top within the list
-    return candidates[0][1] #
+    candidates.sort(key=lambda x: x[0], reverse=True) #best experiment is at the top within the list
+    return candidates[0][1] 
