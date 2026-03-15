@@ -135,4 +135,4 @@ Thumbs.db
 *.log
 
 # Lab-specific: Uncomment if results CSVs are large/regenerated
-# results_*.csv
+results_*.csv
