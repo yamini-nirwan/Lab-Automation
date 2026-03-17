@@ -13,7 +13,7 @@ experiment_numbers = df.index + 1  # Start numbering from 1 for readability
 plt.figure(figsize=(12, 6))
 
 # Plot the yield progression over experiments with markers for each point.
-plt.plot(experiment_numbers, experiment_yields, marker="o", linestyle="-", color="blue", label="Yield")
+plt.plot(experiment_numbers, experiment_yields, linestyle="-", color="blue", label="Yield")
 
 # Identify the experiment with the highest yield.
 highest_yield_index = experiment_yields.idxmax()
