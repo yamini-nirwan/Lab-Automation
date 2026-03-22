@@ -31,7 +31,7 @@ def predict_with_uncertainity(model, x):
     #std → uncertainty
     #k → exploration factor
 
-def suggest_next_experiment(model, n_candidates=2000, k=2.0):
+def suggest_next_experiment_bayesian(model, n_candidates=2000, k=2.0):
     best_score = -np.inf #-np.inf = negative infinity (very very small number) i.e. "Any real score will be better than this"
     best_params = None
     
@@ -40,7 +40,7 @@ def suggest_next_experiment(model, n_candidates=2000, k=2.0):
         #generate random experiment parameters 
         params = {
             "current": np.random.uniform(0, 100),  
-            "concentration": np.random.uniform(0, 1),  
+            "concentration": np.random.uniform(0.1, 1.0),  
             "temp": np.random.uniform(20, 80),  
             "time": np.random.uniform(10, 120) 
         }
