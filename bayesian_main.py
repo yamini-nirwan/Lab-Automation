@@ -1,4 +1,4 @@
-from experiment_runner import perform_experiment, run_experiment
+from experiment_runner import perform_experiment
 from data_logger import log_experiment
 from bayesian_optimizer import (
     train_model_with_uncertainity,
@@ -25,4 +25,4 @@ for i in range(NUM_EXPERIMENTS):
         params = suggest_next_experiment_bayesian(model)
 
     result = perform_experiment(params)
-    log_experiment(params, filename="results_bayesian.csv")
+    log_experiment(result, filename="results_bayesian.csv")
