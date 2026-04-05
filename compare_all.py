@@ -10,21 +10,28 @@ comparison_configs = [
 		"label": "Grid Search",
 		"filename": "results_grid.csv",
 		"color": "royalblue",
-		"annotation_offset": (16, 18)
+		"raw_annotation_offset": (-86, -18),
+		"best_progress_annotation_offset": (-96, -18)
 	},
 	{
 		"label": "ML Optimization",
 		"filename": "results_ml.csv",
 		"color": "seagreen",
-		"annotation_offset": (16, -30)
+		"raw_annotation_offset": (16, -30),
+		"best_progress_annotation_offset": (16, -30)
 	},
 	{
 		"label": "Bayesian Optimization",
 		"filename": "results_bayesian.csv",
 		"color": "darkorange",
-		"annotation_offset": (-110, 18)
+		"raw_annotation_offset": (-110, 18),
+		"best_progress_annotation_offset": (-110, 18)
 	}
 ]
+
+
+ANNOTATION_FONT_SIZE = 7
+ANNOTATION_BOX_PADDING = 0.2
 
 
 def load_experiment_data(filename):
@@ -60,15 +67,25 @@ def build_best_result_summary(method_label, experiment_data):
 
 def annotate_best_result(plot_axis, method_label, experiment_number, yield_value, color, offset):
 	"""Add a clear label pointing to the highest-yield experiment for one method."""
+	horizontal_alignment = "left" if offset[0] >= 0 else "right"
+	vertical_alignment = "bottom" if offset[1] >= 0 else "top"
+
 	plot_axis.annotate(
 		f"{method_label}\n#{experiment_number}: {yield_value:.2f}%",
 		xy=(experiment_number, yield_value),
 		xytext=offset,
 		textcoords="offset points",
-		fontsize=9,
+		fontsize=ANNOTATION_FONT_SIZE,
 		color=color,
-		bbox=dict(boxstyle="round,pad=0.35", facecolor="white", alpha=0.9, edgecolor=color),
-		arrowprops=dict(arrowstyle="->", color=color, lw=1.5)
+		ha=horizontal_alignment,
+		va=vertical_alignment,
+		bbox=dict(
+			boxstyle=f"round,pad={ANNOTATION_BOX_PADDING}",
+			facecolor="white",
+			alpha=0.85,
+			edgecolor=color
+		),
+		arrowprops=dict(arrowstyle="->", color=color, lw=1.2)
 	)
 
 
@@ -125,7 +142,7 @@ for config in comparison_configs:
 		best_experiment_number,
 		best_yield_value,
 		config["color"],
-		config["annotation_offset"]
+		config["raw_annotation_offset"]
 	)
 
 	axes[1].scatter(
@@ -144,25 +161,37 @@ for config in comparison_configs:
 		best_experiment_number,
 		best_yield_value,
 		config["color"],
-		config["annotation_offset"]
+		config["best_progress_annotation_offset"]
 	)
 
 	summary_blocks.append(build_best_result_summary(config["label"], experiment_data))
 
 
 # Label the upper plot, which shows every experiment result.
-axes[0].set_title("Yield Per Experiment Across Optimization Methods")
+axes[0].set_title(
+	"Yield Per Experiment Across Optimization Methods",
+	pad=18,
+	fontweight="bold",
+	loc="center"
+)
 axes[0].set_xlabel("Experiment Number")
 axes[0].set_ylabel("Yield (%)")
 axes[0].grid(True, alpha=0.3)
 axes[0].legend()
+axes[0].margins(y=0.18)
 
 # Label the lower plot, which shows the best yield found so far.
-axes[1].set_title("Best Yield Progress Comparison")
+axes[1].set_title(
+	"Best Yield Progress Comparison",
+	pad=18,
+	fontweight="bold",
+	loc="center"
+)
 axes[1].set_xlabel("Experiment Number")
 axes[1].set_ylabel("Best Yield Found (%)")
 axes[1].grid(True, alpha=0.3)
 axes[1].legend()
+axes[1].margins(y=0.16)
 
 # Add one summary box for all three methods to keep the comparison in one figure.
 comparison_summary = "\n\n".join(summary_blocks)
@@ -178,5 +207,5 @@ axes[1].text(
 )
 
 figure.suptitle("Comparison of Grid Search, ML, and Bayesian Optimization", fontsize=14)
-plt.tight_layout(rect=[0, 0, 0.82, 0.97])
+plt.tight_layout(rect=[0, 0, 0.82, 0.97], h_pad=2.8)
 plt.show()
